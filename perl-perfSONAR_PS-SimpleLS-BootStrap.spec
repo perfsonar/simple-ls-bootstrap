@@ -6,7 +6,7 @@
 %define disttag pSPS
 
 Name:			perl-perfSONAR_PS-SimpleLS-BootStrap
-Version:		3.3.1
+Version:		3.3.2
 Release:		%{relnum}.%{disttag}
 Summary:		perfSONAR_PS SimpleLS BootStrap
 License:		Distributable, see LICENSE
@@ -65,6 +65,14 @@ Package for host running Lookup service clients to determine best Simple Lookup
 Service to use.
 
 %pre
+/usr/sbin/groupadd perfsonar 2> /dev/null || :
+/usr/sbin/useradd -g perfsonar -r -s /sbin/nologin -c "perfSONAR User" -d /tmp perfsonar 2> /dev/null || :
+
+%pre client
+/usr/sbin/groupadd perfsonar 2> /dev/null || :
+/usr/sbin/useradd -g perfsonar -r -s /sbin/nologin -c "perfSONAR User" -d /tmp perfsonar 2> /dev/null || :
+
+%pre server
 /usr/sbin/groupadd perfsonar 2> /dev/null || :
 /usr/sbin/useradd -g perfsonar -r -s /sbin/nologin -c "perfSONAR User" -d /tmp perfsonar 2> /dev/null || :
 
