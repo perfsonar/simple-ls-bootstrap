@@ -6,7 +6,7 @@
 %define disttag pSPS
 
 Name:			perl-perfSONAR_PS-SimpleLS-BootStrap
-Version:		3.3.2
+Version:		3.4
 Release:		%{relnum}.%{disttag}
 Summary:		perfSONAR_PS SimpleLS BootStrap
 License:		Distributable, see LICENSE
@@ -132,6 +132,10 @@ rm -rf %{buildroot}
 %attr(0755,perfsonar,perfsonar) %{install_base}/lib/*
 
 %changelog
+* Thu Jun 19 2013 andy@es.net 3.4-1
+- Fixed links to old repo
+- Fixed file permission issue
+
 * Fri Jan 11 2013 asides@es.net 3.3-1
 - 3.3 beta release
 
