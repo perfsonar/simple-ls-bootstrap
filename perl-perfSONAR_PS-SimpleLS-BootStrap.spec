@@ -2,7 +2,7 @@
 %define init_script_server simple_ls_bootstrap_server
 %define init_script_client simple_ls_bootstrap_client
 
-%define relnum 2 
+%define relnum 3 
 %define disttag pSPS
 
 Name:			perl-perfSONAR_PS-SimpleLS-BootStrap
@@ -112,7 +112,6 @@ rm -rf %{buildroot}
 %config %{install_base}/etc/activehosts.json
 %config %{install_base}/etc/SimpleLSBootStrapServerDaemon.conf
 %config %{install_base}/etc/SimpleLSBootStrapServerDaemon-logger.conf
-%attr(0644,perfsonar,perfsonar) %{install_base}/etc/service_url
 %attr(0755,perfsonar,perfsonar) /etc/init.d/%{init_script_server}
 %attr(0755,perfsonar,perfsonar) %{install_base}/scripts/%{init_script_server}
 %attr(0755,perfsonar,perfsonar) %{install_base}/bin/SimpleLSBootStrapServerDaemon.pl
@@ -127,6 +126,7 @@ rm -rf %{buildroot}
 %config %{install_base}/etc/service_url
 %config %{install_base}/etc/SimpleLSBootStrapClientDaemon.conf
 %config %{install_base}/etc/SimpleLSBootStrapClientDaemon-logger.conf
+%attr(0644,perfsonar,perfsonar) %{install_base}/etc/service_url
 %attr(0755,perfsonar,perfsonar) /etc/init.d/%{init_script_client}
 %attr(0755,perfsonar,perfsonar) %{install_base}/scripts/%{init_script_client}
 %attr(0755,perfsonar,perfsonar) %{install_base}/bin/SimpleLSBootStrapClientDaemon.pl
