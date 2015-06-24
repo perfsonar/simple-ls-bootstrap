@@ -91,13 +91,46 @@ sub _find_hosts {
     #read hosts
     my $string = YAML::Syck::LoadFile($self->{CONF}->{hosts_file});
     my @hosts = @{$string->{'hosts'}};
-    if (!@hosts){
+    my @caches = @{$string->{'caches'}};
+    my $activeHosts = $self->_findActiveHosts(\@hosts);
+    my $activeCaches = $self->_findActiveHosts(\@caches);
+
+	my $err_msg = '';
+    if(!@{$activeHosts}){
+        croak 'No active hosts to output. '. $err_msg;
+    }
+    
+    my $outputhash = ();
+	if($activeHosts){
+        $outputhash->{'hosts'} = $activeHosts;      
+    }
+        
+    if($activeCaches){
+    	$outputhash->{'caches'} = $activeCaches;
+    }
+    
+    open FILEHANDLE, ">". $self->{CONF}->{output_file} or croak 'Unable to write to ' . $self->{CONF}->{output_file};
+    print FILEHANDLE encode_json($outputhash);
+    close FILEHANDLE;
+}
+
+sub _findActiveHosts{
+
+  my ($hostref) = @_;
+  
+  my @hosts;
+  if($hostref){
+      @hosts= @{$hostref};
+  }
+  my $defaultPriority = 100; 
+  my @hostsoutput;
+  
+     if (!@hosts){
       croak "No hosts in list";
     }    
     
     my $err_msg = '';
-    my $defaultPriority = 100;
-    my @hostsoutput;
+    
     foreach my $host(@hosts){
         #get URL
         my $locator = $host->{'locator'};
@@ -130,15 +163,12 @@ sub _find_hosts {
             push (@hostsoutput, $hostref); 
         }
     }        
-    if(!@hostsoutput){
-        croak 'No active hosts to output. '. $err_msg;
-    }
-    
-    my $outputhash = {hosts => \@hostsoutput};
-    open FILEHANDLE, ">". $self->{CONF}->{output_file} or croak 'Unable to write to ' . $self->{CONF}->{output_file};
-    print FILEHANDLE encode_json($outputhash);
-    close FILEHANDLE;
+	
+	return \@hostsoutput;
+  
+
 }
+
 
 __END__
 

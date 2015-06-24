@@ -1,0 +1,1 @@
+{"hosts":[{"priority":100,"locator":"http://odev-vm-7.es.net/ls/activehosts.yml","status":"alive"}],"caches":[{"priority":100,"locator":"http://ps-cache.es.net:8090/lookup/records","status":"alive"}]}

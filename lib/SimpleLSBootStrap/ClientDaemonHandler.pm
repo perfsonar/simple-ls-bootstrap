@@ -95,6 +95,7 @@ sub _find_hosts {
     }
     my $err_msg = '';   
     my @activeHosts;
+    my @activeCaches;
     foreach my $host(@hosts){
         my $locator = $host->{'locator'};
         if(!defined $locator){
@@ -143,8 +144,32 @@ sub _find_hosts {
                 	push(@activeHosts, $ahost);
             	}
             }
+        }
+
+    
+    foreach my $activehost(@{$activehostlist->{'caches'}}){
+            my $locator = $activehost->{'locator'};
+            my $url = URI->new($locator);
+            my $hostname = $url->host();
+            my $port = $url->port();
+            
+            my $status = $activehost->{'status'};
+            my $ahost = $activehost;
+            if(defined $status && $status eq "alive"){
+                my $ls = SimpleLookupService::Client::SimpleLS->new();
+                my $ret = $ls->init({host=>$hostname, port=>$port});
+                if($ret==0){
+                    $ls->connect();
+                    my $latency = $ls->getLatency();
+                    $latency =~ s/ms$//; #strip units
+                    $ahost->{'latency'} = $latency;
+                    push(@activeCaches, $ahost);
+                }
+            }
         }                
+                    
     }
+
     
     #verify we found host
     if(! @activeHosts){
@@ -152,9 +177,10 @@ sub _find_hosts {
     }
     
     my %hostList = ('hosts' => \@activeHosts);
+    my %cacheList = ('caches' => \@activeCaches);
     #Output to file
     #open FOUT, ">". $self->{CONF}->{output_file} or croak 'Unable to write to ' . $self->{CONF}->{output_file};
-    YAML::Syck::DumpFile($self->{CONF}->{output_file},\%hostList) or croak 'Unable to write to ' . $self->{CONF}->{output_file};
+    YAML::Syck::DumpFile($self->{CONF}->{output_file},\%hostList,\%cacheList) or croak 'Unable to write to ' . $self->{CONF}->{output_file};
     #close FOUT;
 }
 

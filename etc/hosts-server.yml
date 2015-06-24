@@ -4,3 +4,8 @@ hosts:
     locator: http://odev-vm-7.es.net/ls/activehosts.yml
     priority: ~
     status: alive
+caches:
+  - 
+    locator: http://ps-cache-west.es.net:8090/lookup/records
+    priority: ~
+    status: alive
