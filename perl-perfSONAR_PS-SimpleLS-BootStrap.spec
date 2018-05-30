@@ -9,7 +9,7 @@ Name:			perl-perfSONAR_PS-SimpleLS-BootStrap
 Version:		3.4
 Release:		%{relnum}.%{disttag}
 Summary:		perfSONAR_PS SimpleLS BootStrap
-License:		Distributable, see LICENSE
+License:		ASL 2.0
 Group:			Development/Libraries
 Source0:		perfSONAR_PS-SimpleLS-BootStrap-%{version}.%{relnum}.tar.gz
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
